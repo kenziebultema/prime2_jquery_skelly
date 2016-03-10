@@ -10,7 +10,7 @@ function getCat(){
         url: '/cats',
         success: function(data){
             console.log(data);
-            // appendDom(data);
+            appendDom(data);
         }
     });
 }
@@ -21,6 +21,7 @@ function addCat(){
         url: '/add',
         success: function(cat){
             console.log(cat);
+            getCat(cat);
 
         }
     });
@@ -34,13 +35,19 @@ function emptyForm(){
 	});
 
 	$('.employeeInfo').find('input[type = text]').val("");
+
+    $('.new-cat').text(values.name);
+
 }
 
-// function appendDom(object){
-//     for(var i = 0; i < object.length; i++){
-//          $('.container').append('<p>Works</p>');
-//}
-// }
+function appendDom(object){
+    for(var i = 0; i < object.length; i++){
+        $('.container').append('<div></div>');
+         var $el = $('.container').children().last();
+
+         $el.append('<p>' + object[i].name + '</p>');
+}
+}
 
 
 console.log('connected');

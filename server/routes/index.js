@@ -8,24 +8,22 @@ mongoose.connect('mongodb://localhost/basic_skelly_jquery');
 
 var Cat = mongoose.model('Cat', {name:String});
 
-router.post('/add', function(req, res){
-    console.log(req.body);
-    var kitty = new Cat({name: req.body.name});
+router.post('/add', function(request, response){
+    var kitty = new Cat({name: request.body.name});
     kitty.save(function(err){
-        if(err)console.log('meow %s', err);
-        res.send(kitty.toJSON());
+        if(err) console.log('meow %s', err);
+        response.send(kitty.toJSON());
     });
 });
 
-router.get('/cats', function(req, res){
+router.get('/cats', function(request, response){
     return Cat.find({}).exec(function(err, cats){
         if(err) throw new Error(err);
-        res.send(cats);
+        response.send(JSON.stringify(cats));
     });
 });
 
-
-router.get('/', function(req, res){
+router.get('/*', function(req, res, next){
     var file = req.params[0] || '/views/index.html';
     res.sendFile(path.join(__dirname, '../public', file));
 });
